@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  linux-build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: linux_kernel
+    volumes:
+      - .:/linux
+    working_dir: /linux
+    stdin_open: true
+    tty: true
+    ports:
+      - "1234:1234"  # GDB debugging port
+    command: /bin/bash
+

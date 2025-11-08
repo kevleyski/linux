@@ -1,0 +1,46 @@
+# GDB initialization script for Linux kernel 0.96c debugging
+# Load this with: gdb -x gdbinit.kernel
+
+# Connect to QEMU's GDB stub
+target remote localhost:1234
+
+# Load symbol information
+file tools/system
+
+# Set disassembly flavour to Intel (easier to read)
+set disassembly-flavour intel
+
+# Enable history
+set history save on
+set history filename ~/.gdb_history
+
+# Pretty printing
+set print pretty on
+set print array on
+set print array-indexes on
+
+# Show source when stepping
+set listsize 20
+
+# Useful breakpoints (commented out - uncomment as needed)
+# break main
+# break start_kernel
+# break setup_arch
+
+echo \n
+echo ========================================\n
+echo Linux Kernel - GDB Session\n
+echo ========================================\n
+echo Connected to QEMU on localhost:1234\n
+echo Symbols loaded from tools/system\n
+echo \n
+echo Useful commands:\n
+echo   c          - continue execution\n
+echo   si         - step instruction\n
+echo   ni         - next instruction\n
+echo   b <func>   - set breakpoint\n
+echo   info reg   - show registers\n
+echo   x/10i $pc  - disassemble at current PC\n
+echo ========================================\n
+echo \n
+

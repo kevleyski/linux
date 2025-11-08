@@ -1,0 +1,56 @@
+# Build artifacts
+*.o
+*.a
+*.s
+*.tmp
+Image
+System.map
+system.tmp
+tools/system
+tools/build
+boot/bootsect
+boot/setup
+boot/bootsect.o
+boot/setup.o
+boot/bootsect.s
+boot/setup.s
+boot/head.o
+init/*.o
+core
+tmp_make
+.version
+
+# CMake build directories
+cmake-build-*/
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+
+# CLion specific
+.idea/
+*.iml
+.clion-debug/
+
+# Docker volumes
+.docker-data/
+
+# Backup files
+*.bak
+*~
+*.swp
+*.swo
+
+# Generated config files (keep templates)
+include/linux/config_rel.h
+include/linux/config_ver.h
+
+# Editor files
+.vscode/
+*.code-workspace
+.DS_Store
+
+# GDB history
+.gdb_history
+
