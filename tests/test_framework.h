@@ -1,5 +1,5 @@
 /*
- * Simple Unit Testing Framework for Linux Kernel 0.96c
+ * Simple Unit Testing Framework for Linux Kernel
  * 
  * This provides a lightweight testing framework that can run on macOS
  * without requiring the full kernel environment.

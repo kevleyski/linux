@@ -1,0 +1,23 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 19,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "local-debug",
+      "displayName": "Local Debug",
+      "description": "Use local clang for IDE/CI configure",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/cmake-build-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_C_COMPILER": "/Users/klambert/.swiftly/bin/clang",
+        "CMAKE_CXX_COMPILER": "/Users/klambert/.swiftly/bin/clang++"
+      }
+    }
+  ]
+}
+

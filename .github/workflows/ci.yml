@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Homebrew (for clang if needed)
+      run: |
+        brew update || true
+        brew install llvm || true
+
+    - name: Configure CMake
+      run: |
+        cmake -S . -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug
+
+    - name: Build tests
+      run: |
+        cmake --build cmake-build-debug --target run_tests -j$(sysctl -n hw.ncpu || echo 2)
+
+    - name: Run tests
+      run: |
+        cd cmake-build-debug
+        ctest --output-on-failure -C Debug
+

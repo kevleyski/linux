@@ -1,4 +1,4 @@
-# Dockerfile for building Linux kernel 0.96c
+# Dockerfile for building Linux kernel
 # This provides the vintage toolchain needed to build this old kernel
 
 FROM ubuntu:18.04
@@ -28,7 +28,7 @@ COPY . /linux
 ENV PATH="/usr/bin:${PATH}"
 
 # Default command - show build instructions
-CMD ["/bin/bash", "-c", "echo 'Linux Kernel 0.96c Build Environment' && \
+CMD ["/bin/bash", "-c", "echo 'Linux Kernel Build Environment' && \
     echo '==========================================' && \
     echo '' && \
     echo 'To build the kernel:' && \

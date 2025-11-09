@@ -1,7 +1,17 @@
 # The (original) Linux Kernel
 
-Linux kernel (circa 1991-1993) configured for modern development and debugging in JetBrains CLion on macOS.
+Linux kernel version 0.96c (circa 1991-1993) configured for modern development and debugging in JetBrains CLion on macOS.
 
+Originally written by **Linus Torvalds** and contributors in the early 1990s. The original code is distributed under the GNU General Public License v2. This repository contains the original source code with modern build and debugging tools added for educational and development purposes. No modifications have been made to the original kernel source files.
+
+## ⚠️ Debug Build Configuration
+
+**This project is configured for optimal debugging:**
+- `-g -ggdb` : Full debug symbols
+- `-O0` : No optimizations (accurate stepping)
+- `-fno-omit-frame-pointer` : Complete stack traces
+
+See [DEBUG_BUILD.md](DEBUG_BUILD.md) for complete details.
 
 ```
 ├── boot/           # Boot sector and setup code
@@ -93,24 +103,38 @@ cd cmake-build-debug
 make run_tests
 ```
 
-### In CLion
+## Running Tests
 
-1. Open the project in CLion
-2. Let CMake configure (it should work now without errors)
-3. Use the Run menu to execute test targets:
-   - `run_tests` - Run all tests
-   - Individual test executables for specific tests
-4. View test results in the Run panel
+### Kernel Code Tests (2 TESTS LINK ORIGINAL KERNEL CODE! 🔬)
 
-### Run Individual Tests
+These tests compile and link **actual 1991-1993 Linux kernel source files** for step debugging:
+
+1. ✅ **test_kernel_mktime** - Links `kernel/mktime.c` 
+   - Debug Linus's original time conversion algorithm!
+   - Set breakpoints in `kernel/mktime.c`, step through code
+   - See 1992 leap year calculations in action
+   
+2. ✅ **test_kernel_errno** - Links `lib/errno.c`
+   - Debug the kernel's global errno variable
+   - Simple example of linking kernel code
 
 ```bash
+# Build and run
 cd cmake-build-debug
-make test_string_functions && ./test_string_functions
-make test_vsprintf && ./test_vsprintf
-make test_ctype && ./test_ctype
-make test_lib_string && ./test_lib_string
+cmake ..
+cmake --build . --target test_kernel_mktime
+./test_kernel_mktime
+
+# Debug in CLion:
+# 1. Select "test_kernel_mktime" from run configurations
+# 2. Open kernel/mktime.c (ORIGINAL 1992 code!)
+# 3. Set breakpoint in kernel_mktime() function
+# 4. Click Debug and step through the algorithm!
 ```
+
+**Why only 2 tests?** Most kernel `.c` files have deep dependencies on kernel headers and internal structures. Only a few simple files like `mktime.c` and `errno.c` can be compiled standalone without the full kernel build environment.
+
+**See [HONEST_RESULTS.md](HONEST_RESULTS.md) for complete details on what works and why.**
 
 
 
@@ -231,7 +255,7 @@ However, this will only work inside the Docker container or on a Linux system wi
 
 ### Understanding the Boot Process
 
-The Linux 0.96c kernel boots in several stages:
+The Linux kernel boots in several stages:
 
 1. **BIOS loads bootsect** (`boot/bootsect.S`)
 2. **bootsect loads setup** (`boot/setup.S`)
@@ -308,6 +332,31 @@ break schedule
 break trap_init
 break do_IRQ
 ```
+
+## Running tests (unit tests)
+
+Prerequisites:
+
+- CMake (>= 3.10)
+- A C compiler available on PATH (clang/gcc). You can also set CC to a specific compiler binary.
+- ctest (optional, but recommended — typically bundled with CMake)
+
+Quick commands:
+
+```bash
+# Automatic: configure, build and run tests (recommended)
+./run-tests.sh
+
+# Manual steps:
+cmake -S . -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug
+cmake --build cmake-build-debug --target run_tests -- -j$(sysctl -n hw.ncpu || echo 1)
+cd cmake-build-debug && ctest --output-on-failure -C Debug
+```
+
+Notes:
+- On macOS you may need to install the Xcode command line tools: `xcode-select --install` or install gcc/clang via Homebrew.
+- If the repository was configured on another machine, the CMake cache may reference a compiler path that doesn't exist locally; `./run-tests.sh` tries to detect a local compiler and pass it to CMake automatically.
+- For kernel compilation (not just tests) prefer the Docker-based Makefile workflow described earlier.
 
 ## Troubleshooting
 

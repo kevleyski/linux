@@ -42,10 +42,13 @@ KEYBOARD = -DKBD_FINNISH -DKBDFLAGS=0
 MATH_EMULATION = -DKERNEL_MATH_EMULATION
 
 #
-# standard CFLAGS
+# standard CFLAGS - configured for debugging
+# -g -ggdb: full debug symbols for GDB
+# -O0: no optimizations for accurate debugging
+# -fno-omit-frame-pointer: preserve frame pointers for better stack traces
 #
 
-CFLAGS =-Wall -O6 -fomit-frame-pointer -g -ggdb
+CFLAGS =-Wall -g -ggdb -O0 -fno-omit-frame-pointer
 
 #
 # if you want the ram-disk device, define this to be the

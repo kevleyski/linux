@@ -1,4 +1,4 @@
-# GDB initialization script for Linux kernel 0.96c debugging
+# GDB initialization script for Linux kernel debugging
 # Load this with: gdb -x gdbinit.kernel
 
 # Connect to QEMU's GDB stub
